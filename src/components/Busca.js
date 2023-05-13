@@ -1,14 +1,14 @@
 import React, { useState }from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
-const Busca = (props) => {
+const Busca = ({ dica, onBuscaRealizada }) => {
   const [termoDeBusca, setTermoDeBusca] = useState('')
   const onTermoAlterado = (event) => {
     setTermoDeBusca(event.target.value)
   }
   const onFormSubmit = (event) => {
     event.preventDefault()
-
+    onBuscaRealizada(termoDeBusca)
   }
   return (
     <form onFormSubmit={onFormSubmit}>
@@ -18,7 +18,7 @@ const Busca = (props) => {
           <i className="pi pi-search"></i>
           <InputText 
             className='w-full'
-            placeholder={props.dica}
+            placeholder={dica}
             onChange={onTermoAlterado}
             value={termoDeBusca}
           />
