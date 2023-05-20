@@ -6,12 +6,12 @@ const Busca = ({ dica, onBuscaRealizada }) => {
   const onTermoAlterado = (event) => {
     setTermoDeBusca(event.target.value)
   }
-  const onFormSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
     onBuscaRealizada(termoDeBusca)
   }
   return (
-    <form onFormSubmit={onFormSubmit}>
+    <form onSubmit={onSubmit}>
       <div className="flex flex-column">
         {/* span.p-input-icon-left>i.pi.pi-search */}
         <span className="p-input-icon-left w-full">
