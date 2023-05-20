@@ -4,23 +4,32 @@ import env from 'react-dotenv'
 import { createClient } from 'pexels'
 import ListaImagens from './ListaImagens'
 import PexelsLogo from './PexelsLogo'
+import pexelsClient from '../utils/pexelsClient'
 //useState é um hook (a partir da versão 16.8)
 class App extends React.Component {
-
-  client = null
-
-  state = {pics: []}
-
+  
+  state = {pics: []}  
+  
   componentDidMount(){
     this.client = createClient(env.PEXELS_KEY)
   }
-
-  onBuscaRealizada = async (termo) => {
-    const result = await this.client.photos.search({
-      query: termo,
-      per_page: 50
+  
+  // client = null
+  // onBuscaRealizada = async (termo) => {
+  //   const result = await this.client.photos.search({
+  //     query: termo,
+  //     per_page: 50
+  //   })
+  //   this.setState({pics: result.photos})
+  // }
+  onBuscaRealizada = (termo) => {
+    pexelsClient.get('/search', {
+      params: {query: termo, per_page: 50}
     })
-    this.setState({pics: result.photos})
+    .then(result => {
+      // console.log(result.data)
+      this.setState({pics: result.data.photos})
+    })
   }
   render(){
     return (
@@ -32,11 +41,15 @@ class App extends React.Component {
           <div className="col-12">
             <h1>Exibir uma lista de...</h1>
           </div>
-          <div className="col-8">
+          <div className="col-12">
             <Busca onBuscaRealizada={this.onBuscaRealizada}/>
           </div>
-          <div className="col-8">
-            <ListaImagens pics={this.state.pics}/>
+          <div className="col-12">
+            <div className="grid">
+              <ListaImagens 
+                pics={this.state.pics}
+                imgStyle={'col-12 md:col-6 lg:col-4 xl:col-3'}/>
+            </div>
           </div>
       </div>
     )
